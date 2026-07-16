@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports 4 All — Full Design Process Rebuild · ALDA Crash Course Toolkit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:12px;line-height:1.6;color:#1F1F1F;background:#EBE9E4;}
+.page{max-width:880px;margin:24px auto;background:#fff;padding:42px 48px;box-shadow:0 2px 18px rgba(0,0,0,.1);}
+
+.tag{display:inline-block;background:#B4552F;color:#fff;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;padding:3px 10px;margin-bottom:8px;}
+h1{font-family:Georgia,serif;font-size:23px;color:#1A2D5A;line-height:1.25;margin-bottom:6px;}
+.sub{font-size:11px;color:#777;}
+.header{border-bottom:2.5px solid #1A2D5A;padding-bottom:16px;margin-bottom:20px;}
+
+/* PROJECT FACTS BAR */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px;}
+.fact{background:#1A2D5A;color:#fff;padding:9px 10px;}
+.fact-l{font-size:8px;text-transform:uppercase;letter-spacing:.06em;opacity:.7;display:block;margin-bottom:2px;}
+.fact-v{font-size:11px;font-weight:600;line-height:1.35;display:block;}
+
+/* ARC */
+.arc{display:flex;align-items:center;margin:6px 0 26px;padding:0 8px;}
+.arc-dot{width:8px;height:8px;border-radius:50%;background:#B4552F;flex-shrink:0;}
+.arc-line{flex:.4;height:1.5px;background:#B4552F;}
+.arc-stage{flex:1;text-align:center;}
+.arc-circle{width:32px;height:32px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;}
+.arc-name{font-size:9.5px;font-weight:700;color:#1A2D5A;line-height:1.25;}
+.s1{background:#1E5E36;}.s2{background:#1C6B6B;}.s3{background:#1A2D5A;}.s4{background:#A04A00;}.s5{background:#888;}
+
+h2{font-family:Georgia,serif;font-size:15px;color:#1A2D5A;margin-bottom:4px;display:flex;align-items:center;gap:10px;}
+.stage-num{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+.stage-q{font-size:11.5px;font-style:italic;color:#8A6A4A;margin-bottom:10px;padding-left:36px;}
+.stage{margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid #E5E2DC;}
+.stage:last-of-type{border-bottom:none;}
+.stage-desc{font-size:12px;color:#333;margin-bottom:12px;padding-left:36px;}
+
+.block{margin-left:36px;background:#F8F7F4;border:0.5px solid #E0DCD4;border-left:3px solid #1A2D5A;padding:12px 15px;margin-bottom:10px;}
+.block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1A2D5A;margin-bottom:6px;}
+.block p{font-size:11.5px;color:#333;margin-bottom:6px;}
+.block p:last-child{margin-bottom:0;}
+.block ul{margin:4px 0 6px 16px;}
+.block li{font-size:11.5px;color:#333;margin-bottom:4px;}
+.block strong{color:#1A2D5A;}
+
+.pattern{margin-left:36px;border:0.5px solid #DDD8D0;border-left:3px solid;padding:11px 14px;margin-bottom:9px;background:#FDFDFC;page-break-inside:avoid;}
+.p-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+.p-name{font-size:13px;font-weight:700;color:#1A1A1A;margin-bottom:5px;}
+.p-body{font-size:11.5px;color:#3A3A3A;line-height:1.6;}
+.p-body strong{color:#1A2D5A;}
+.p-meta{font-size:10.5px;color:#888;margin-top:6px;font-style:italic;}
+.t1{border-left-color:#A32D2D;}.t1 .p-label{color:#A32D2D;}
+.t2{border-left-color:#185FA5;}.t2 .p-label{color:#185FA5;}
+.t3{border-left-color:#3B6D11;}.t3 .p-label{color:#3B6D11;}
+.t4{border-left-color:#534AB7;}.t4 .p-label{color:#534AB7;}
+.t5{border-left-color:#BA7517;}.t5 .p-label{color:#BA7517;}
+.t6{border-left-color:#D85A30;}.t6 .p-label{color:#993C1D;}
+
+table{border-collapse:collapse;font-size:11px;margin-left:36px;width:calc(100% - 36px);margin-bottom:10px;}
+thead th{background:#1A2D5A;color:#fff;padding:6px 9px;text-align:left;font-size:9.5px;text-transform:uppercase;letter-spacing:.04em;}
+tbody td{padding:7px 9px;border-bottom:0.5px solid #E5E2DC;vertical-align:top;line-height:1.5;}
+tbody tr:nth-child(even){background:#F8F7F4;}
+td.k{font-weight:700;color:#1A2D5A;}
+
+.callout{margin:14px 0 14px 36px;background:#1A2D5A;color:#fff;padding:14px 18px;page-break-inside:avoid;}
+.callout-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#90A8C8;margin-bottom:5px;}
+.callout p{font-size:12px;line-height:1.65;color:#D8E2F0;}
+.callout strong{color:#fff;}
+.callout .kw{color:#E8885A;font-style:normal;font-weight:700;}
+
+.atag{display:inline-block;font-size:10px;padding:2px 8px;margin:2px 2px 2px 0;border-radius:2px;}
+.human{background:#E5EDF8;color:#1A2D5A;border:0.5px solid #B8CCE8;}
+.nonhuman{background:#F5F0E5;color:#5A3A00;border:0.5px solid #D5C59A;}
+
+.footer{border-top:0.5px solid #DDD;padding-top:10px;margin-top:24px;display:flex;justify-content:space-between;font-size:9px;color:#999;}
+
+@media print{
+  body{background:#fff;}
+  .page{margin:0;box-shadow:none;padding:22px 28px;max-width:100%;}
+  .stage{page-break-inside:auto;}
+  h1{font-size:19px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="tag">Crash Course Toolkit · Full Rebuild Around One Real Project</div>
+  <h1>Sports 4 All — The Complete Design Process Applied</h1>
+  <p class="sub"><strong>Project:</strong> Sports 4 All — "Encouraging social inclusion and diversity in sports" · <strong>Host:</strong> ALDA (partner), lead: Kirikù Social Cooperative · <strong>Prepared by:</strong> ICT &amp; Development for Social Good, University of Turin · July 2026</p>
+</div>
+
+<!-- PROJECT FACTS -->
+<div class="facts">
+  <div class="fact"><span class="fact-l">Period</span><span class="fact-v">06/2022 – 11/2023 (completed)</span></div>
+  <div class="fact"><span class="fact-l">Donor / Programme</span><span class="fact-v">European Commission · Erasmus+</span></div>
+  <div class="fact"><span class="fact-l">Countries</span><span class="fact-v">France · Greece · Italy · Slovenia · Spain</span></div>
+  <div class="fact"><span class="fact-l">SDG</span><span class="fact-v">10 — Reduced Inequalities</span></div>
+  <div class="fact"><span class="fact-l">Consortium</span><span class="fact-v">Kirikù (lead) · ALDA · TPV Novo Mesto · INNOVED · Mar Violeta</span></div>
+  <div class="fact"><span class="fact-l">Core beneficiary</span><span class="fact-v">Disadvantaged youth in educational poverty</span></div>
+  <div class="fact"><span class="fact-l">Direct target</span><span class="fact-v">Coaches, trainers, educators</span></div>
+  <div class="fact"><span class="fact-l">Intervention type</span><span class="fact-v">Methodology + capacity building</span></div>
+</div>
+
+<!-- ARC -->
+<div class="arc">
+  <div class="arc-dot"></div><div class="arc-line"></div>
+  <div class="arc-stage"><div class="arc-circle s1">1</div><div class="arc-name">Sensing</div></div>
+  <div class="arc-line"></div>
+  <div class="arc-stage"><div class="arc-circle s2">2</div><div class="arc-name">Sensemaking</div></div>
+  <div class="arc-line"></div>
+  <div class="arc-stage"><div class="arc-circle s3">3</div><div class="arc-name">Point of View</div></div>
+  <div class="arc-line"></div>
+  <div class="arc-stage"><div class="arc-circle s4">4</div><div class="arc-name">Imagining<br>Alternatives</div></div>
+  <div class="arc-line"></div>
+  <div class="arc-stage"><div class="arc-circle s5">5</div><div class="arc-name">Transforming &amp;<br>Integrating</div></div>
+  <div class="arc-line"></div><div class="arc-dot"></div>
+</div>
+
+<div class="callout" style="margin-left:0;">
+  <div class="callout-title">Why rebuild around this project</div>
+  <p>Sports 4 All is a <strong>completed</strong> project — which makes it perfect crash course material: its "archaeology" is real, its results are assessable, and its design choices can be critiqued and re-imagined without speculation. It also embodies the central pattern of all our previous work: <span class="kw">it changes the context around the beneficiary (training coaches), not the beneficiary's attitude</span>. Everything below dissects, tests, and rebuilds that logic.</p>
+</div>
+
+<!-- ═══════════ STAGE 1 ═══════════ -->
+<div class="stage">
+  <h2><span class="stage-num s1">1</span> Sensing — The Problem Space</h2>
+  <div class="stage-q">"What is going on out there?"</div>
+
+  <div class="block">
+    <div class="block-title">Focal problem statement</div>
+    <p style="font-size:13px;font-weight:600;color:#1A2D5A;">"Disadvantaged youth in educational poverty are excluded from sports — and from the developmental opportunities sport carries."</p>
+    <p>The project's own framing is analytically sharp: educational poverty is <strong>not just economic poverty</strong> and not just a violation of the right to education — it is a <strong>lack of opportunities across diverse, complementary, linked fields</strong>. Sport is one of those fields: exclusion from it means exclusion from physical development, peer belonging, discipline structures, and adult mentorship simultaneously.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Nature and consequences</div>
+    <ul>
+      <li><strong>Multi-dimensional exclusion:</strong> the child excluded from sport loses not one benefit but a bundle — health, socialisation, non-formal learning, protective adult relationships.</li>
+      <li><strong>Compounding effect:</strong> educational poverty derives from economic poverty but then reproduces it — fewer skills, weaker networks, lower resilience. Sport exclusion is one link in that reproduction chain.</li>
+      <li><strong>Italian context (from our earlier problem space):</strong> ~10% of the population in absolute poverty (ISTAT 2023), foreigners four times more likely to be poor, strong territorial divides — exactly the demographics of the "disadvantaged youth" this project names.</li>
+      <li><strong>Connection to the democracy problem space:</strong> a young person excluded from every civic-adjacent structure (sport clubs, associations) at 13 is the disengaged non-voter at 24. Sports 4 All and the local-democracy work address the <strong>same population at different life stages</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Archaeology — what has already been tried</div>
+    <ul>
+      <li><strong>The normative layer (1976):</strong> the European Sports Charter for All (Council of Europe) called on governments to guarantee citizens the practice of sport — 46+ years before this project. The right exists on paper; the project exists because paper didn't deliver.</li>
+      <li><strong>Fee waivers and subsidy schemes:</strong> many municipalities offer reduced fees for low-income families — a supply-side fix that doesn't address why families don't apply (stigma, information gaps, forms).</li>
+      <li><strong>Generic inclusion campaigns:</strong> awareness posters and "sport for everyone" messaging — attitude-targeting, which our whole framework predicts will fail.</li>
+      <li><strong>The gap Sports 4 All identified:</strong> nobody had equipped the <strong>coaches</strong> — the human beings at the actual point of contact — with a methodology for working with educationally poor youth. The intervention fills a capability gap, not an awareness gap.</li>
+    </ul>
+  </div>
+
+  <div class="block" style="border-left-color:#B4552F;margin-top:14px;">
+    <div class="block-title" style="color:#B4552F;">STEEP-V — macro-environmental scan</div>
+    <p style="margin-bottom:4px;">Where the problem tree looks <strong>inside</strong> the problem, STEEP-V scans the <strong>macro-environment around it</strong> — external forces the project cannot control but must design within. Each force is classified by direction: <strong style="color:#A32D2D;">▼ headwind</strong> (works against inclusion), <strong style="color:#1E5E36;">▲ tailwind</strong> (works for it), <strong style="color:#BA7517;">◆ ambivalent</strong> (depends on design). Every force is wired to an existing tool — actant, theme, POV, or concept.</p>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:14%;">Dimension</th><th style="width:48%;">Forces in the Sports 4 All problem space</th><th style="width:38%;">Wired to</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="k">Social</td>
+        <td><span style="color:#1E5E36;font-weight:700;">▲</span> Demographic winter: fewer children → clubs compete for members → inclusion becomes a <strong>survival strategy</strong>, not charity<br>
+        <span style="color:#A32D2D;font-weight:700;">▼</span> Territorial segregation (periphery vs. centre); ~10% absolute poverty; migrant families 4× more exposed (ISTAT)<br>
+        <span style="color:#A32D2D;font-weight:700;">▼</span> Leisure fragmenting into individualised screen time — the courtyard culture Karim comes from is itself eroding</td>
+        <td>Flips the power relation in POV 2 (clubs need Karim); feeds Theme 6 (belonging infrastructure thinning at both ends); economic cluster of the problem tree</td>
+      </tr>
+      <tr>
+        <td class="k">Technological</td>
+        <td><span style="color:#A32D2D;font-weight:700;">▼</span> Online-only club info and digital enrolment exclude low-connectivity families; screens are sport's direct competitor for after-school hours<br>
+        <span style="color:#1E5E36;font-weight:700;">▲</span> WhatsApp-level tech is universal even in poor households — "Second Contact" needs nothing more than a coach with a phone</td>
+        <td>Spatial/Digital cluster; the JTBD "competing hire" is technological. <strong>Design rule:</strong> build on tech families already have, never on tech the project introduces</td>
+      </tr>
+      <tr>
+        <td class="k">Economic</td>
+        <td><span style="color:#A32D2D;font-weight:700;">▼</span> Inflation eroding family budgets — sport is the first "non-essential" cut; grassroots clubs financially fragile post-COVID; municipal budgets skewed to competitive facilities<br>
+        <span style="color:#1E5E36;font-weight:700;">▲</span> Erasmus+ / CERV sport-inclusion funding lines stable and growing — the follow-up has a funding environment</td>
+        <td>Explains the club-manager WNF causally: inclusion fails as an unfunded burden, and the macro-economics are why the burden feels unfundable. Feeds "solidarity pricing" HMW</td>
+      </tr>
+      <tr>
+        <td class="k">Environmental</td>
+        <td><span style="color:#A32D2D;font-weight:700;">▼</span> Heatwaves compress the outdoor training calendar (Veneto summers increasingly hostile); facility quality worst in poor neighbourhoods (unshaded, unmaintained)<br>
+        <span style="color:#A32D2D;font-weight:700;">▼</span> Urban densification eats informal play space — Karim's courtyard is a shrinking resource<br>
+        <span style="color:#BA7517;font-weight:700;">◆</span> Green urban regeneration (including ALDA's own Vicenza work) could rebuild play infrastructure</td>
+        <td>Spatial cluster; journey map phase 1 (the courtyard as origin). The ambivalent force is a <strong>cross-project synergy inside ALDA's own portfolio</strong></td>
+      </tr>
+      <tr>
+        <td class="k">Political</td>
+        <td><span style="color:#1E5E36;font-weight:700;">▲</span> Sport inclusion is <strong>less politically contested</strong> than migration or civic advocacy — reaches migrant-background families without triggering the resistance a "migrant integration" project would<br>
+        <span style="color:#A32D2D;font-weight:700;">▼</span> Regional politics determine sport funding; Veneto priorities may not match project timelines<br>
+        <span style="color:#1E5E36;font-weight:700;">▲</span> Dormant 1976 CoE Charter as normative anchor; 5-country consortium insulates against any single national swing</td>
+        <td>Theme 4 (the dormant right); the Meloni-era context from the democracy problem space, applied with a twist; feeds "Charter Scoreboard" concept</td>
+      </tr>
+      <tr>
+        <td class="k">Values</td>
+        <td><span style="color:#A32D2D;font-weight:700;">▼</span> Italy's competitive-performance sport culture (winning attracts funding and volunteers) structurally devalues participation-oriented coaching — the methodology swims against the cultural current<br>
+        <span style="color:#1E5E36;font-weight:700;">▲</span> Post-pandemic revaluation of community and belonging; generational shift among younger coaches toward mentorship over drill-sergeant authority<br>
+        <span style="color:#BA7517;font-weight:700;">◆</span> Parental values — sport as childcare, discipline, or mobility ladder — vary by community and shape enrolment more than any fee level</td>
+        <td><strong>Explains Theme 5 causally:</strong> the methodology dies not from neglect but from value misalignment with club culture. The follow-up must target club culture, not just coach skills</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block">
+    <div class="block-title">Three new findings the scan adds</div>
+    <ul>
+      <li><strong>1 — The demographic-winter tailwind:</strong> clubs <em>need</em> Karim more than Karim needs clubs. This flips the power relation in POV 2 and gives the proposal narrative its strongest argument to club managers: inclusion is member acquisition, not charity.</li>
+      <li><strong>2 — The depoliticisation advantage:</strong> sport reaches populations that politically-framed projects cannot. Sports 4 All-type work is a strategic <em>entry point</em> for ALDA's harder civic goals — the same families, without the political resistance.</li>
+      <li><strong>3 — The values headwind explains the output-survival problem:</strong> the methodology's real enemy is not neglect but the performance culture. Theme 5 now has its cause — and the follow-up project has its true target: club culture change.</li>
+    </ul>
+  </div>
+
+  <div class="block" style="border-left-color:#B4552F;">
+    <div class="block-title" style="color:#B4552F;">STEEP-V-derived HMW questions (feeding Stage 4)</div>
+    <ul>
+      <li><strong>Social ▲:</strong> HMW position inclusion as the club's survival strategy in a shrinking-membership market — so club managers pursue it out of self-interest?</li>
+      <li><strong>Technological ▲:</strong> HMW run the entire "Second Contact" follow-up on the one channel every family already has (WhatsApp) — zero new tech, zero training?</li>
+      <li><strong>Economic ▼→▲:</strong> HMW convert the inflation squeeze into the solidarity-pricing argument — every ordinary membership quietly funding one open place?</li>
+      <li><strong>Environmental ◆:</strong> HMW link ALDA's urban-regeneration projects to sport access — regenerated spaces designed as informal play infrastructure, rebuilding Karim's courtyard?</li>
+      <li><strong>Political ▲:</strong> HMW use sport's depoliticised status as the entry point for reaching families that civic-framed projects cannot touch?</li>
+      <li><strong>Values ▼:</strong> HMW make participation-oriented coaching a source of prestige inside a performance culture — a visible credential, an award, a ranking clubs want?</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Where STEEP-V lives in the method — and in PCM</div>
+    <p>STEEP-V belongs to <strong>Stage 1 (Sensing)</strong> as the macro-scanning layer: the problem tree looks inward, STEEP-V looks outward. Its outputs feed forward mechanically: <span class="kw">headwinds ▼ become the Risks &amp; Assumptions column of the logframe</span> (PCM Phase 3), <span class="kw">tailwinds ▲ become the opportunity narrative of the proposal</span>, and <span class="kw">ambivalent forces ◆ become explicit design choices</span>. A STEEP-V scan that doesn't wire into the actants, themes and POVs is decoration — every force above passes that test.</p>
+  </div>
+</div>
+
+<!-- ═══════════ STAGE 2 ═══════════ -->
+<div class="stage">
+  <h2><span class="stage-num s2">2</span> Sensemaking — Structures &amp; Patterns</h2>
+  <div class="stage-q">"What patterns and structures explain it?"</div>
+
+  <div class="block">
+    <div class="block-title">Problem tree — cause clusters (the 6-cluster method applied)</div>
+    <table style="margin-left:0;width:100%;">
+      <thead><tr><th style="width:26%;">Cluster</th><th>Causes feeding the focal problem</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Economic</td><td>Membership fees, equipment costs, transport costs; family economic hardship; underfunded grassroots clubs</td></tr>
+        <tr><td class="k">Institutional</td><td>Clubs lack trained staff for inclusion; no methodology exists; municipal sports budgets skewed to competitive sport</td></tr>
+        <tr><td class="k">Social</td><td>Stigma of subsidy applications; migrant-background exclusion; peer-group segregation by neighbourhood</td></tr>
+        <tr><td class="k">Educational</td><td>Educational poverty as lack of linked opportunities; no bridge between school and sport worlds; parents outside information circuits</td></tr>
+        <tr><td class="k">Cultural</td><td>Gender norms limiting girls' sport access; competitive-performance culture crowding out participation culture</td></tr>
+        <tr><td class="k">Spatial / Digital</td><td>Facility deserts in poor neighbourhoods; club information online-only, excluding low-connectivity families</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Actant map — human and non-human</div>
+    <p><strong>Human actants:</strong></p>
+    <p>
+      <span class="atag human">Disadvantaged youth (beneficiaries)</span>
+      <span class="atag human">Coaches &amp; trainers (direct target)</span>
+      <span class="atag human">Educators</span>
+      <span class="atag human">Parents / guardians</span>
+      <span class="atag human">Sports club managers</span>
+      <span class="atag human">Kirikù (lead partner)</span>
+      <span class="atag human">ALDA project staff + PCM intern</span>
+      <span class="atag human">Consortium partners (TPV, INNOVED, Mar Violeta)</span>
+      <span class="atag human">Municipal sports offices</span>
+    </p>
+    <p style="margin-top:8px;"><strong>Non-human actants:</strong></p>
+    <p>
+      <span class="atag nonhuman">Membership fees (the gatekeeper)</span>
+      <span class="atag nonhuman">Registration forms &amp; subsidy applications</span>
+      <span class="atag nonhuman">The methodology document (the project's core output)</span>
+      <span class="atag nonhuman">Erasmus+ grant rules &amp; reporting templates</span>
+      <span class="atag nonhuman">European Sports Charter 1976 (dormant normative actant)</span>
+      <span class="atag nonhuman">Sports facilities &amp; their locations</span>
+      <span class="atag nonhuman">Equipment (boots, kits — cost embodied in objects)</span>
+      <span class="atag nonhuman">SDG 10 framework</span>
+      <span class="atag nonhuman">Transport infrastructure</span>
+    </p>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Wants / Needs / Fears — key actants</div>
+    <table style="margin-left:0;width:100%;">
+      <thead><tr><th style="width:17%;">Actant</th><th style="width:27%;">Want — seeking</th><th style="width:29%;">Need — must take from system</th><th style="width:27%;">Fear — would prevent the goal</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Disadvantaged youth</td><td>Belonging, play, being good at something visible to peers</td><td>Free/affordable access; a coach who doesn't make difference feel like deficiency</td><td>Humiliation — being the one who can't pay, doesn't have the kit, doesn't know the codes</td></tr>
+        <tr><td class="k">Coaches / trainers</td><td>Teams that function; personal competence; recognition</td><td>Practical methodology, training time, club backing for inclusion work</td><td>Being handed responsibility for "difficult" kids with no tools — and failing visibly</td></tr>
+        <tr><td class="k">Parents</td><td>Safe, affordable development opportunities for their child</td><td>Clear information, no-stigma enrolment paths, trust in the adults involved</td><td>Hidden costs appearing later; the child being singled out or excluded</td></tr>
+        <tr><td class="k">Club managers</td><td>Viable club: members, volunteers, funds</td><td>Funding that covers inclusion costs; trained staff</td><td>Inclusion as unfunded burden that drives out paying members</td></tr>
+        <tr><td class="k">Methodology document <em>(non-human)</em></td><td>To be used — adopted into daily coaching practice</td><td>Champions inside clubs; training that transfers it; language coaches actually read</td><td>The standard fate of project outputs: the PDF nobody opens after the final report</td></tr>
+        <tr><td class="k">Erasmus+ rules <em>(non-human)</em></td><td>Compliance, measurable outputs, timely reports</td><td>Consortium capacity to absorb and document</td><td>Non-compliance; unspent funds; unmeasurable "soft" outcomes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Journey map — persona "Karim, 13, Vicenza periphery"</div>
+    <table style="margin-left:0;width:100%;">
+      <thead><tr><th style="width:15%;">Phase</th><th style="width:45%;">Actions</th><th style="width:40%;">Inner voice</th></tr></thead>
+      <tbody>
+        <tr><td class="k">1 · Trigger</td><td>Plays football daily in the courtyard; friends join the local club; coach at school says he has talent</td><td>"I'm as good as them. I want to be on a real team."</td></tr>
+        <tr><td class="k">2 · Attempt</td><td>Goes to the club with a friend; gets the enrolment form; sees the fee, the kit list, the medical certificate requirement</td><td>"I can't show this to my mother. She has other things to pay."</td></tr>
+        <tr><td class="k">3 · Barrier</td><td>Doesn't return; avoids the topic with friends; the club never follows up on the kid who came once</td><td>"It's not for people like us. Whatever."</td></tr>
+        <tr><td class="k">4 · Withdrawal</td><td>Courtyard football fades as friends are busy with club training; more time online, less structured contact with adults</td><td>"They're all at training. There's nothing here."</td></tr>
+        <tr><td class="k">5 · Re-engage ★</td><td>A Sports 4 All–trained coach notices the drop-off pattern, contacts the school, brings Karim in through a no-fee pathway with kit provided quietly — no ceremony, no singling out</td><td>"Coach just said 'training is Tuesday, bring your cousin too.' That's it. I'm in."</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#888;font-style:italic;">The critical design detail in phase 5: the trained coach removes the barrier <strong>without making the removal visible</strong> — because the WNF analysis shows Karim's deepest fear is not the fee, it's the humiliation of the fee being waived publicly.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Service blueprint — the Sports 4 All intervention (condensed)</div>
+    <table style="margin-left:0;width:100%;">
+      <thead><tr><th style="width:20%;">Layer</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Evidence (what Karim sees)</td><td>A coach who behaves differently; a no-fee pathway; kit that appears; training sessions that use inclusive methods — <strong>Karim never sees "the project" at all</strong></td></tr>
+        <tr><td class="k">Frontstage</td><td>Trained coaches applying the methodology; educators running formal + non-formal activities; club welcoming routines</td></tr>
+        <tr><td class="k">Backstage</td><td>Coach training workshops; methodology development; consortium coordination across 5 countries; ALDA project management; <strong>intern tasks: partner contacts, workshop logistics, translations, drafting reports</strong></td></tr>
+        <tr><td class="k">Support processes</td><td>Erasmus+ grant &amp; reporting cycle; SDG 10 framework; CoE Sports Charter as normative anchor; national sport federation rules; municipal facility agreements</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#888;font-style:italic;">The blueprint reveals the project's most elegant property: the entire intervention is <strong>backstage from the beneficiary's perspective</strong>. Karim experiences only a better coach — which is exactly right.</p>
+  </div>
+
+  <div class="pattern t1">
+    <div class="p-label">Theme 1 · The dignity gatekeeper</div>
+    <div class="p-name">Cost excludes twice — once economically, once emotionally</div>
+    <div class="p-body">The fee blocks families who can't pay; the <strong>subsidy process</strong> blocks families who won't endure the stigma of proving they can't pay. Every actor's WNF confirms it: Karim fears humiliation more than exclusion; parents fear the child being singled out. Any fix that removes the fee but keeps the visibility of removal fails.</div>
+  </div>
+
+  <div class="pattern t2">
+    <div class="p-label">Theme 2 · The capability gap at the point of contact</div>
+    <div class="p-name">The system fails at its warmest touchpoint</div>
+    <div class="p-body">Coaches — the adults with the most contact and goodwill — are the least equipped. They want inclusion but fear failing at it without tools. The pattern mirrors the democracy work exactly: the touchpoint actor (coach ≈ municipal front office) lacks the methodology, so goodwill converts to avoidance.</div>
+  </div>
+
+  <div class="pattern t3">
+    <div class="p-label">Theme 3 · The intermediary logic</div>
+    <div class="p-name">Change the adults, reach the child</div>
+    <div class="p-body">The project never targets youth attitudes. It re-equips the context — coaches, educators, club practices — so the inclusive behavior becomes the natural one. This is the context-shift principle in its purest funded form: <strong>the beneficiary and the target are different people by design</strong>.</div>
+  </div>
+
+  <div class="pattern t4">
+    <div class="p-label">Theme 4 · The dormant right</div>
+    <div class="p-name">A 1976 Charter, a 2022 project</div>
+    <div class="p-body">The European Sports Charter guaranteed this access almost five decades before the project. A right existing as text (non-human actant) with no enforcement loop stays dormant. Sports 4 All is what activation of a dormant normative actant looks like: methodology + training + funded consortium.</div>
+  </div>
+
+  <div class="pattern t5">
+    <div class="p-label">Theme 5 · The output survival problem</div>
+    <div class="p-name">The methodology's fear is being a PDF nobody opens</div>
+    <div class="p-body">The project ended 11/2023. Its central output — the methodology — now faces the classic fate of project deliverables: no funding attached to its continued use, no indicator tracking adoption after closure. The feedback-loop-silence theme from the democracy work reappears as a <strong>sustainability loop</strong> problem.</div>
+  </div>
+
+  <div class="pattern t6">
+    <div class="p-label">Theme 6 · Same population, different life stage</div>
+    <div class="p-name">Karim at 13 is Alessia's disengaged neighbour at 24</div>
+    <div class="p-body">Exclusion from sport clubs and exclusion from civic participation follow the same structure: insider architecture, cost/stigma gatekeepers, untrained touchpoint actors, broken follow-up loops. Sports 4 All and local-democracy work are <strong>the same intervention at different ages</strong> — belonging infrastructure.</div>
+  </div>
+</div>
+
+<!-- ═══════════ STAGE 3 ═══════════ -->
+<div class="stage">
+  <h2><span class="stage-num s3">3</span> Stating our Point of View</h2>
+  <div class="stage-q">"What do we believe is really going on — and why does it matter?"</div>
+
+  <div class="block">
+    <div class="block-title">Three insights (each passes the three criteria)</div>
+    <ul>
+      <li><strong>1 — Exclusion is administered, not chosen:</strong> Karim doesn't drop out of sport; he is filtered out by a fee, a form, and a kit list — non-human actants doing gatekeeping no human decided on. <em>(Well-informed: WNF + journey map + ISTAT poverty data. Reframe: from "hard-to-reach youth" to "easy-to-lose youth" — the system loses them, they don't hide. So what: redesign the filters, not the outreach.)</em></li>
+      <li><strong>2 — The coach is the system's highest-leverage node:</strong> one trained coach changes the experience of every child who passes through — a multiplier no youth-targeting program can match. <em>(Well-informed: intervention logic + capability-gap theme. Reframe: capacity building isn't the "soft" part of inclusion, it IS the inclusion. So what: invest in touchpoint actors, measure at beneficiary level.)</em></li>
+      <li><strong>3 — Project closure is where impact goes to die:</strong> the methodology has no post-project loop — no adoption tracking, no funding for use, no owner. <em>(Well-informed: project ended 11/2023, page lists no documents, standard Erasmus+ structure. Reframe: sustainability is not a report chapter, it's a design requirement of the output itself. So what: the follow-up project — and your internship — lives exactly here.)</em></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Frames in the "as if... then..." format</div>
+    <table style="margin-left:0;width:100%;">
+      <thead><tr><th style="width:22%;">Frame</th><th style="width:40%;">If approached as if it is...</th><th style="width:38%;">Then...</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Sport as a service</td><td>...a service with a hostile onboarding funnel (fee, form, kit list) that loses users at first contact,</td><td>...redesign enrolment: one-step, no-stigma, follow-up on every child who comes once and doesn't return.</td></tr>
+        <tr><td class="k">Sport as a right</td><td>...a 1976 right that has never had an enforcement mechanism,</td><td>...build the accountability loop: public access data per club, municipal funding tied to inclusion metrics.</td></tr>
+        <tr><td class="k">Sport as a feedback system</td><td>...a reinforcing loop where exclusion at 13 produces disengagement at 24,</td><td>...intervene at the earliest loop entry (the first club contact) — the cheapest leverage point in the whole civic-exclusion system.</td></tr>
+        <tr><td class="k">Sport as jobs to be done</td><td>...something Karim hires for belonging and visible competence — with the courtyard and the phone as competing hires,</td><td>...design club experiences that beat the substitutes on the emotional job (belonging without humiliation) from day one.</td></tr>
+        <tr><td class="k">Sport as an actant network</td><td>...a network where the fee, the form, and the kit perform the exclusion,</td><td>...redesign the artifacts: invisible fee waivers, one-line enrolment, kit as standard provision not charity.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pattern t2">
+    <div class="p-label">POV 1 · The coach</div>
+    <div class="p-name">Actor needs to Need because Insight</div>
+    <div class="p-body"><strong>Grassroots coaches</strong> need to <strong>be equipped with a practical inclusion methodology and the club's backing to use it</strong> because <strong>they are the system's highest-leverage node — and their current avoidance of "difficult" kids is fear of unequipped failure, not unwillingness.</strong></div>
+    <div class="p-meta">Context shift: don't exhort coaches to be inclusive — train them, then make the inclusive move the easy move (no-fee pathway they can activate without paperwork).</div>
+  </div>
+
+  <div class="pattern t1">
+    <div class="p-label">POV 2 · The club</div>
+    <div class="p-name">Actor needs to Need because Insight</div>
+    <div class="p-body"><strong>Sports clubs</strong> need to <strong>make the removal of barriers invisible to the child</strong> because <strong>the deepest exclusion mechanism is not the fee but the humiliation of the fee being visibly waived — dignity is the real gatekeeper.</strong></div>
+    <div class="p-meta">Context shift: redesign the artifacts (enrolment form, kit provision, payment process) so a subsidised child is indistinguishable from any other member.</div>
+  </div>
+
+  <div class="pattern t5">
+    <div class="p-label">POV 3 · The methodology (non-human)</div>
+    <div class="p-name">Actor needs to Need because Insight</div>
+    <div class="p-body"><strong>The Sports 4 All methodology</strong> needs to <strong>an owner, an adoption indicator, and a funded afterlife</strong> because <strong>a project output with no post-closure loop becomes a PDF nobody opens — and 18 months of consortium work dies with the final report.</strong></div>
+    <div class="p-meta">Context shift: sustainability written into the output's design — a hosting institution, a training-of-trainers cascade, adoption tracked as a follow-up project indicator.</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">The single committed point of view</div>
+    <p>"How might we make the <span class="kw">first contact between a disadvantaged child and a sports club</span> succeed — by equipping the coach, redesigning the gatekeeping artifacts, and protecting the child's dignity — so that <span class="kw">belonging at 13 becomes the vaccine against disengagement at 24</span>?"</p>
+  </div>
+</div>
+
+<!-- ═══════════ STAGE 4 ═══════════ -->
+<div class="stage">
+  <h2><span class="stage-num s4">4</span> Imagining Alternatives</h2>
+  <div class="stage-q">"What else could this be?"</div>
+  <p class="stage-desc">Sports 4 All ended in 11/2023. The generative question is: <strong>what would the follow-up project be?</strong> One concept per frame — your starting portfolio for crash course ideation:</p>
+
+  <div class="block">
+    <div class="block-title">Follow-up concepts (one per frame)</div>
+    <ul>
+      <li><strong>Service frame → "Second Contact":</strong> a protocol every partner club adopts — any child who comes once and doesn't return gets one personal follow-up from the coach within a week. Measured: return rate. Cost: near zero. The journey map shows phase 3 (barrier) is where Karim is lost silently; this closes it.</li>
+      <li><strong>Rights frame → "The Charter Scoreboard":</strong> a public, municipality-level dashboard of youth sport access (places offered vs. neighbourhood need), activating the dormant 1976 Charter with the transparency mechanism it never had. ALDA's local-democracy DNA applied to sport.</li>
+      <li><strong>Systems frame → "Early Loop":</strong> a joint school–club referral pathway: teachers flag drop-off from informal play, trained coaches make the first move. Intervenes at the loop's entry point instead of waiting for the family to navigate the system.</li>
+      <li><strong>JTBD frame → "Bring Your Cousin":</strong> enrolment designed as social invitation, not application — kids join in pairs/groups through a coach's word, paperwork follows later and invisibly. Beats the courtyard on its own terms: belonging first, bureaucracy never visible.</li>
+      <li><strong>ANT frame → "The One-Line Form":</strong> a consortium redesign sprint of the three gatekeeping artifacts (enrolment form, fee process, kit provision) tested with families — treating documents as the design object, exactly the Sports 4 All logic extended from people to paper.</li>
+    </ul>
+  </div>
+
+  <div class="block" style="border-left-color:#B4552F;margin-top:14px;">
+    <div class="block-title" style="color:#B4552F;">The HMW portfolio — ten ideation techniques applied to the committed POV</div>
+    <p style="margin-bottom:4px;">The bridge from Stage 3 to Stage 4: each technique deliberately <strong>distorts the committed POV</strong> ("make the first contact between a disadvantaged child and a sports club succeed") to open a different solution angle. Each HMW below links back to the tool in this document that feeds it.</p>
+  </div>
+
+  <table style="page-break-inside:auto;">
+    <thead><tr><th style="width:19%;">Technique</th><th style="width:44%;">HMW question</th><th style="width:37%;">Fed by</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Amp up the good</td><td>HMW build the club entry around what Karim already has — daily courtyard skill and passion — instead of what he lacks?</td><td>Journey map phase 1 (he already plays every day); Insight "youth aren't lacking motivation"</td></tr>
+      <tr><td class="k">Remove the bad</td><td>HMW eliminate the fee-form-kit moment from first contact entirely, so no child ever faces the gatekeeping artifacts on day one?</td><td>Theme 1 (dignity gatekeeper); actant map — the fee, the form, the kit list</td></tr>
+      <tr><td class="k">Explore the opposite</td><td>HMW make the club come to the courtyard instead of the child coming to the club?</td><td>Inverts the journey map — every failure happens on the club's territory; the courtyard is where Karim is competent</td></tr>
+      <tr><td class="k">Question an assumption</td><td>HMW remove enrolment altogether — why does playing on a team require an application at all?</td><td>Attacks the deepest non-human actant: the registration form. The courtyard has no enrolment and 100% inclusion</td></tr>
+      <tr><td class="k">Go after adjectives</td><td>HMW make the first contact <em>welcoming</em> instead of <em>administrative</em>, and the fee waiver <em>invisible</em> instead of <em>humiliating</em>?</td><td>WNF: Karim's fear is not the fee — it's the visibility of the waiver. The adjective is the design target</td></tr>
+      <tr><td class="k">ID unexpected resources</td><td>HMW leverage the friends already inside the club, the schoolteacher who spotted his talent, and older siblings as the enrolment channel?</td><td>Actant map — peers and teachers are present but unused actants; "Bring Your Cousin" prototyped this</td></tr>
+      <tr><td class="k">Create an analogy</td><td>HMW make joining a club like joining a courtyard game — show up and play, belonging precedes bureaucracy? Or like a free tier — full access first, formalisation later and quietly?</td><td>JTBD frame: the courtyard is the competing hire — copy what makes it win</td></tr>
+      <tr><td class="k">Play POV against the challenge</td><td>HMW make the club a place where being disadvantaged is undetectable — where a subsidised child is indistinguishable from any other member?</td><td>POV 2 (the club needs to make barrier-removal invisible) pushed to its logical extreme</td></tr>
+      <tr><td class="k">Change a status quo</td><td>HMW make inclusion the default economics of the club — solidarity pricing where every ordinary membership quietly funds one open place — rather than an exceptional charity act?</td><td>Club-manager WNF: inclusion fails as an unfunded burden. Change the funding structure, not the manager's attitude</td></tr>
+      <tr><td class="k">Break POV into pieces</td><td>HMW equip the coach? HMW hide the waiver? HMW provide kit without ceremony? HMW follow up on every child who comes once? HMW connect the school signal to the club response?</td><td>Each piece maps to a Stage 4 concept: coach → training cascade; follow-up → "Second Contact"; school signal → "Early Loop"; artifacts → "The One-Line Form"</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-title">What the portfolio proves — and how to use it live</div>
+    <p>The ten techniques didn't generate ten random ideas — they <strong>re-derived the existing concept portfolio from different angles</strong> and added genuinely new ones (the courtyard inversion, solidarity pricing, enrolment abolition). That is the sign of a well-built POV: <span class="kw">it stays generative under every distortion</span>. Live use at the crash course: when an ideation group stalls, don't push for "more ideas" — pick one technique and re-run the POV through it. <strong>"We've been removing the bad. What's the amp-up-the-good version?"</strong> One sentence restarts a dead session.</p>
+  </div>
+</div>
+
+<!-- ═══════════ STAGE 4→5 SYNTHESIS ═══════════ -->
+<div class="stage">
+  <h2><span class="stage-num" style="background:linear-gradient(135deg,#A04A00,#888);">→</span> From Ideas to Intervention — Concept Synthesis</h2>
+  <div class="stage-q">"Which ideas — or parts of ideas — achieve the change defined in the POV?"</div>
+  <p class="stage-desc">The bridge from ideation to intervention: ideas are <strong>not standalone solutions but components</strong>. They are evaluated against the POV (who needs to do what differently), the valuable fragments are synthesised into <strong>one coherent design concept</strong>, the concept is articulated through a design artifact, and only its <strong>riskiest assumptions</strong> are prototyped. HMW questions are disposable — the concept must emerge from critical reflection, not rigid adherence to earlier frameworks.</p>
+
+  <div class="block">
+    <div class="block-title">Step 1 — Evaluating the ideas against the POV</div>
+    <table style="margin-left:0;width:100%;">
+      <thead><tr><th style="width:28%;">Idea from the portfolio</th><th style="width:18%;">Verdict</th><th style="width:54%;">Reason</th></tr></thead>
+      <tbody>
+        <tr><td class="k">"Second Contact" follow-up</td><td style="color:#1E5E36;font-weight:700;">Keep whole</td><td>Directly serves the POV — closes the exact loop where Karim is lost (journey phase 3)</td></tr>
+        <tr><td class="k">"One-Line Form" + invisible waiver + kit without ceremony</td><td style="color:#1E5E36;font-weight:700;">Keep as components</td><td>Together they are the dignity mechanism — POV 2's context shift made operational</td></tr>
+        <tr><td class="k">"Bring Your Cousin" social enrolment</td><td style="color:#1E5E36;font-weight:700;">Keep</td><td>Serves the belonging job (JTBD) — beats the courtyard on its own terms</td></tr>
+        <tr><td class="k">WhatsApp as channel (STEEP-V ▲)</td><td style="color:#1E5E36;font-weight:700;">Keep as infrastructure</td><td>The tech families already have — zero new tools, zero training</td></tr>
+        <tr><td class="k">Prestige credential for inclusive coaching (STEEP-V Values HMW)</td><td style="color:#1E5E36;font-weight:700;">Keep as sustainability engine</td><td>Converts the values headwind into the adoption motor — solves Theme 5 (output survival)</td></tr>
+        <tr><td class="k">"Charter Scoreboard" / municipal dashboards</td><td style="color:#BA7517;font-weight:700;">Set aside</td><td>Valuable but serves a different actor (municipalities) — a separate concept for a separate proposal</td></tr>
+        <tr><td class="k">Courtyard inversion (club comes to the child)</td><td style="color:#BA7517;font-weight:700;">Fold principle only</td><td>Operationally heavy as a programme; its principle — <em>the club moves first</em> — is absorbed into Second Contact</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Step 2 — The synthesised design concept</div>
+    <p style="font-size:15px;font-family:Georgia,serif;margin-bottom:8px;"><strong>"THE OPEN DOOR PROTOCOL"</strong></p>
+    <p>A club-level certification and practice package that makes the first contact of any disadvantaged child succeed — <span class="kw">invisibly</span>. One coherent intervention, four integrated components: <strong>(1) The trained coach</strong> — Sports 4 All methodology extended with first-contact training: how to spot, welcome, and retain a child like Karim. <strong>(2) The invisible pathway</strong> — one-line enrolment, fee settled silently between club and municipality/fund, kit as standard provision: a subsidised child is indistinguishable from any member. <strong>(3) Second Contact</strong> — every child who comes once and doesn't return receives one personal WhatsApp follow-up from the coach within a week. <strong>(4) The Open Door badge</strong> — clubs completing all three earn a visible certification carrying prestige and priority access to municipal facilities and funding — converting the values headwind into the adoption engine, and riding the demographic-winter tailwind: <span class="kw">clubs need Karim more than Karim needs clubs</span>. Every component maps to a POV: the coach (POV 1), the club's artifacts (POV 2), the methodology's afterlife (POV 3 — solved by the badge making adoption self-sustaining).</p>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Step 3 — The artifact: future-state journey map (Karim, re-run through the Open Door Protocol)</div>
+    <table style="margin-left:0;width:100%;">
+      <thead><tr><th style="width:13%;">Phase</th><th style="width:31%;">Karim's future-state experience</th><th style="width:20%;">Inner voice</th><th style="width:36%;">Backstage (blueprint layer) — what the club does</th></tr></thead>
+      <tbody>
+        <tr><td class="k">1 · Trigger</td><td>Plays in the courtyard; the school coach mentions him to the club — <strong>the club moves first</strong></td><td>"The coach from the club asked about me?"</td><td>School–club referral link active; trained coach monitors informal-play signals (Early Loop principle)</td></tr>
+        <tr><td class="k">2 · First contact</td><td>Coach invites him directly: "Training is Tuesday — bring your cousin." No form, no fee mentioned, no kit list</td><td>"That's it? I just... come?"</td><td>One-line enrolment completed by the coach; fee routed silently to the municipal fund; kit pulled from standard provision stock</td></tr>
+        <tr><td class="k">3 · <s style="opacity:.5;">Barrier</s> → Belonging</td><td>Trains with the team from day one; indistinguishable from any other member</td><td>"I'm on a real team."</td><td>Coach applies the Sports 4 All inclusion methodology; club dignity-protocol active: no public reference to subsidy, ever</td></tr>
+        <tr><td class="k">4 · <s style="opacity:.5;">Withdrawal</s> → Safety net</td><td>Misses two weeks (family issue) — receives one personal WhatsApp from the coach: "We missed you Tuesday. See you next week?"</td><td>"They noticed I was gone."</td><td><strong>Second Contact protocol</strong>: automatic flag on absence, one personal follow-up within 7 days, logged for the club's badge renewal</td></tr>
+        <tr><td class="k">5 · Anchored</td><td>A season later: still playing, brings his cousin, the courtyard and the club coexist</td><td>"This is my club."</td><td>Club retention data feeds the <strong>Open Door badge</strong> renewal; badge secures priority facility slots; ALDA aggregates data for the EU report — <em>and sends results back to families</em> (loop closed both ways)</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#888;font-style:italic;">Artifact choice per the synthesis method: journey map because the concept's value lives in an experience (what first contact <strong>feels</strong> like); the blueprint column because the invisibility mechanism — the whole point — is by definition backstage.</p>
+  </div>
+
+  <!-- ── FULL WORKSHOP BOARD (Amparo format) ── -->
+  <div style="margin-left:36px;margin-bottom:10px;background:#FBF2EE;border:1.5px solid #C8BEB4;padding:18px 20px;page-break-inside:avoid;">
+    <div style="font-family:'Segoe UI',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#B4552F;margin-bottom:12px;">Step 3b — The full workshop artifact (Amparo format): Karim's future-state board</div>
+
+    <!-- Board header -->
+    <div style="display:grid;grid-template-columns:54px 150px 1fr 210px;gap:14px;align-items:start;margin-bottom:16px;">
+      <div style="width:50px;height:50px;border-radius:50%;overflow:hidden;border:2px solid #2A2A2A;background:#D8CFC5;">
+        <svg viewBox="0 0 50 50" width="50" height="50" xmlns="http://www.w3.org/2000/svg"><rect width="50" height="50" fill="#D8CFC5"/><circle cx="25" cy="19" r="8.5" fill="#8A7A66"/><path d="M8,47 Q8,33 25,33 Q42,33 42,47" fill="#8A7A66"/></svg>
+      </div>
+      <div>
+        <div style="font-family:'Segoe UI',sans-serif;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#555;">Persona</div>
+        <div style="font-family:Georgia,serif;font-size:21px;font-weight:700;color:#1A1A1A;line-height:1;">Karim</div>
+        <div style="font-family:Georgia,serif;font-size:9px;color:#666;font-style:italic;margin-top:2px;">13 · Vicenza periphery · courtyard footballer</div>
+      </div>
+      <div>
+        <div style="font-family:'Segoe UI',sans-serif;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#555;margin-bottom:2px;">Scenario (future state)</div>
+        <div style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#3A3A3A;line-height:1.5;">Karim's neighbourhood club holds the Open Door badge: Sports 4 All–trained coach, one-line enrolment, invisible fee routing, Second Contact safety net. This board shows his experience when the concept works.</div>
+      </div>
+      <div>
+        <div style="font-family:'Segoe UI',sans-serif;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#555;margin-bottom:2px;">Expectations &amp; Goals</div>
+        <div style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#3A3A3A;line-height:1.5;">1. Play on a real team and be recognised for his skill<br>2. Belong — without ever being marked as "the subsidised kid"</div>
+      </div>
+    </div>
+
+    <!-- Phase columns -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;">
+      <div style="border:1.2px solid #2A2A2A;padding:6px 7px;background:#FBF2EE;"><div style="font-family:Georgia,serif;font-size:9px;font-weight:700;text-align:center;border-bottom:1px solid #2A2A2A;padding-bottom:4px;margin-bottom:5px;line-height:1.3;">Signal &amp;<br>Referral</div><div style="font-family:Georgia,serif;font-size:8px;font-style:italic;line-height:1.45;color:#333;">1. Plays daily in the courtyard<br>2. School coach mentions him — <b>the club moves first</b></div></div>
+      <div style="border:1.2px solid #2A2A2A;padding:6px 7px;background:#FBF2EE;"><div style="font-family:Georgia,serif;font-size:9px;font-weight:700;text-align:center;border-bottom:1px solid #2A2A2A;padding-bottom:4px;margin-bottom:5px;line-height:1.3;">First<br>Contact</div><div style="font-family:Georgia,serif;font-size:8px;font-style:italic;line-height:1.45;color:#333;">1. "Training is Tuesday — bring your cousin"<br>2. No form, no fee, no kit list shown</div></div>
+      <div style="border:1.2px solid #2A2A2A;padding:6px 7px;background:#FBF2EE;"><div style="font-family:Georgia,serif;font-size:9px;font-weight:700;text-align:center;border-bottom:1px solid #2A2A2A;padding-bottom:4px;margin-bottom:5px;line-height:1.3;">Invisible<br>Onboarding</div><div style="font-family:Georgia,serif;font-size:8px;font-style:italic;line-height:1.45;color:#333;">1. Coach does the one-line enrolment<br>2. Fee routed silently<br>3. Kit = standard provision</div></div>
+      <div style="border:1.2px solid #2A2A2A;padding:6px 7px;background:#FBF2EE;"><div style="font-family:Georgia,serif;font-size:9px;font-weight:700;text-align:center;border-bottom:1px solid #2A2A2A;padding-bottom:4px;margin-bottom:5px;line-height:1.3;"><s style="opacity:.45;">Barrier</s> →<br>Belonging</div><div style="font-family:Georgia,serif;font-size:8px;font-style:italic;line-height:1.45;color:#333;">1. Trains from day one<br>2. Indistinguishable from any member<br>3. Methodology applied quietly</div></div>
+      <div style="border:1.2px solid #2A2A2A;padding:6px 7px;background:#FBF2EE;"><div style="font-family:Georgia,serif;font-size:9px;font-weight:700;text-align:center;border-bottom:1px solid #2A2A2A;padding-bottom:4px;margin-bottom:5px;line-height:1.3;"><s style="opacity:.45;">Withdrawal</s> →<br>Safety Net</div><div style="font-family:Georgia,serif;font-size:8px;font-style:italic;line-height:1.45;color:#333;">1. Misses two weeks (family issue)<br>2. Coach's personal WhatsApp within 7 days<br>3. Returns Tuesday</div></div>
+      <div style="border:1.2px solid #2A2A2A;padding:6px 7px;background:#FBF2EE;"><div style="font-family:Georgia,serif;font-size:9px;font-weight:700;text-align:center;border-bottom:1px solid #2A2A2A;padding-bottom:4px;margin-bottom:5px;line-height:1.3;">Community</div><div style="font-family:Georgia,serif;font-size:8px;font-style:italic;line-height:1.45;color:#333;">1. A season in: known, trusted<br>2. Brings his cousin through the same door<br>3. Courtyard and club coexist</div></div>
+      <div style="border:1.2px solid #2A2A2A;padding:6px 7px;background:#FBF2EE;"><div style="font-family:Georgia,serif;font-size:9px;font-weight:700;text-align:center;border-bottom:1px solid #2A2A2A;padding-bottom:4px;margin-bottom:5px;line-height:1.3;">Contribution</div><div style="font-family:Georgia,serif;font-size:8px;font-style:italic;line-height:1.45;color:#333;">1. Welcomes the next new kid<br>2. His story feeds badge renewal<br>3. Results go back to families</div></div>
+    </div>
+
+    <!-- Emotion curve with callouts -->
+    <div style="position:relative;height:150px;margin-top:5px;">
+      <svg width="100%" height="150" viewBox="0 0 1000 150" preserveAspectRatio="none" style="display:block;">
+        <line x1="143" y1="0" x2="143" y2="150" stroke="#D8CEC4" stroke-width=".7"/>
+        <line x1="286" y1="0" x2="286" y2="150" stroke="#D8CEC4" stroke-width=".7"/>
+        <line x1="429" y1="0" x2="429" y2="150" stroke="#D8CEC4" stroke-width=".7"/>
+        <line x1="572" y1="0" x2="572" y2="150" stroke="#D8CEC4" stroke-width=".7"/>
+        <line x1="715" y1="0" x2="715" y2="150" stroke="#D8CEC4" stroke-width=".7"/>
+        <line x1="858" y1="0" x2="858" y2="150" stroke="#D8CEC4" stroke-width=".7"/>
+        <path d="M 30,86 C 60,79 90,68 143,63 C 200,57 240,43 286,41 C 330,40 380,66 429,51 C 470,40 520,36 572,68 C 610,92 640,57 715,41 C 760,32 800,30 858,26 C 905,23 950,19 975,17" fill="none" stroke="#2A2A2A" stroke-width="1.5"/>
+        <circle cx="80" cy="74" r="3" fill="#2A2A2A"/><circle cx="215" cy="47" r="3" fill="#2A2A2A"/><circle cx="357" cy="45" r="3" fill="#2A2A2A"/><circle cx="500" cy="41" r="3" fill="#2A2A2A"/><circle cx="590" cy="74" r="3" fill="#2A2A2A"/><circle cx="786" cy="34" r="3" fill="#2A2A2A"/><circle cx="930" cy="20" r="3" fill="#2A2A2A"/>
+      </svg>
+      <div style="position:absolute;left:1%;top:60%;background:#E8531F;color:#fff;font-size:7.5px;font-weight:700;font-family:'Segoe UI',sans-serif;padding:3px 6px;max-width:105px;line-height:1.3;box-shadow:2px 2px 0 rgba(0,0,0,.15);">"The coach from the club asked about me?"</div>
+      <div style="position:absolute;left:17%;top:8%;background:#E8531F;color:#fff;font-size:7.5px;font-weight:700;font-family:'Segoe UI',sans-serif;padding:3px 6px;max-width:105px;line-height:1.3;box-shadow:2px 2px 0 rgba(0,0,0,.15);">"That's it? I just... come? Bring my cousin?"</div>
+      <div style="position:absolute;left:32%;top:45%;background:#E8531F;color:#fff;font-size:7.5px;font-weight:700;font-family:'Segoe UI',sans-serif;padding:3px 6px;max-width:105px;line-height:1.3;box-shadow:2px 2px 0 rgba(0,0,0,.15);">"Everyone got the same kit. Nobody asked my mother for anything."</div>
+      <div style="position:absolute;left:46%;top:6%;background:#E8531F;color:#fff;font-size:7.5px;font-weight:700;font-family:'Segoe UI',sans-serif;padding:3px 6px;max-width:90px;line-height:1.3;box-shadow:2px 2px 0 rgba(0,0,0,.15);">"I'm on a real team."</div>
+      <div style="position:absolute;left:56.5%;top:60%;background:#E8531F;color:#fff;font-size:7.5px;font-weight:700;font-family:'Segoe UI',sans-serif;padding:3px 6px;max-width:105px;line-height:1.3;box-shadow:2px 2px 0 rgba(0,0,0,.15);">"They noticed I was gone. Coach wrote to me — just me."</div>
+      <div style="position:absolute;left:72%;top:4%;background:#E8531F;color:#fff;font-size:7.5px;font-weight:700;font-family:'Segoe UI',sans-serif;padding:3px 6px;max-width:100px;line-height:1.3;box-shadow:2px 2px 0 rgba(0,0,0,.15);">"This is my club. My cousin plays here now too."</div>
+      <div style="position:absolute;left:87%;top:32%;background:#E8531F;color:#fff;font-size:7.5px;font-weight:700;font-family:'Segoe UI',sans-serif;padding:3px 6px;max-width:100px;line-height:1.3;box-shadow:2px 2px 0 rgba(0,0,0,.15);">"I show the new kids where everything is."</div>
+    </div>
+
+    <!-- Questions -->
+    <div style="margin-top:14px;">
+      <div style="font-family:'Segoe UI',sans-serif;font-size:10.5px;font-weight:700;color:#1A1A1A;margin-bottom:5px;">Questions</div>
+      <ul style="margin-left:16px;">
+        <li style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#333;line-height:1.55;margin-bottom:4px;">Can the invisible pathway stay invisible in small communities where everyone knows everyone — is discretion possible in a paese where the club treasurer is a neighbour?</li>
+        <li style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#333;line-height:1.55;margin-bottom:4px;">How does the protocol account for children whose access is mediated by another person — a consenting parent, a translating sibling, a guardian who distrusts institutions? Who is the real first contact in those families?</li>
+        <li style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#333;line-height:1.55;margin-bottom:4px;">What is the role of the school coach / teacher as the referral node — and what happens in schools where no adult is watching the courtyard?</li>
+        <li style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#333;line-height:1.55;">Second Contact works when a coach-child relationship exists; what is the safety net for the child who came once and was never noticed at all?</li>
+      </ul>
+    </div>
+
+    <!-- Insights & Opportunities -->
+    <div style="margin-top:12px;">
+      <div style="font-family:'Segoe UI',sans-serif;font-size:10.5px;font-weight:700;color:#1A1A1A;margin-bottom:5px;">Insights &amp; Opportunities</div>
+      <ul style="margin-left:16px;">
+        <li style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#333;line-height:1.55;margin-bottom:4px;">The belonging→community→contribution sequence (phases 4–7) is the experience's <b>core loop</b> — the same pattern the Amparo map identified. How do we maximise its stickiness, and ensure a version reaches children in clubs without the badge?</li>
+        <li style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#333;line-height:1.55;margin-bottom:4px;">Phase 7 turns Karim from beneficiary into infrastructure: every retained child lowers the cost of the next inclusion — <b>the protocol compounds</b>. The follow-up proposal should claim this multiplier explicitly.</li>
+        <li style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#333;line-height:1.55;margin-bottom:4px;">The emotional low is no longer structural (old Barrier/Withdrawal) but circumstantial (a family issue) — and the system now responds. That is the measurable difference between current-state and future-state: same child, same events, different architecture.</li>
+        <li style="font-family:Georgia,serif;font-size:9.5px;font-style:italic;color:#333;line-height:1.55;">This board doubles as the prototype script: phase 2 = the dignity role-play, phase 5 = the coach-adoption WhatsApp test, phase 7 = the badge-value club-manager interview — the three risky assumptions live at three visible points on the journey.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="block" style="border-left-color:#A32D2D;">
+    <div class="block-title" style="color:#A32D2D;">Step 4 — Risky assumptions to prototype (and what NOT to prototype)</div>
+    <table style="margin-left:0;width:100%;">
+      <thead><tr><th style="width:24%;">Assumption</th><th style="width:14%;">Risk level</th><th style="width:62%;">Prototype — targeted, disposable, testing only this</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Dignity assumption</td><td style="color:#A32D2D;font-weight:700;">Highest</td><td>Will families enrol through the invisible pathway — or does even a discreet process feel exposing? <strong>Prototype:</strong> role-play the enrolment conversation with real parents (the method's ultrasound example applied)</td></tr>
+        <tr><td class="k">Coach adoption assumption</td><td style="color:#A32D2D;font-weight:700;">High</td><td>Will coaches actually send the Second Contact message — or does it feel intrusive to them? <strong>Prototype:</strong> 2 weeks, 3 coaches, real WhatsApp follow-ups; count sends and responses</td></tr>
+        <tr><td class="k">Badge value assumption</td><td style="color:#BA7517;font-weight:700;">Medium</td><td>Do clubs want the certification enough to change practice? <strong>Prototype:</strong> paper mock-up of the badge and its benefits, tested in interviews with 5 Veneto club managers</td></tr>
+        <tr><td class="k">WhatsApp works technically</td><td style="color:#1E5E36;font-weight:700;">Not risky</td><td>Not prototyped — universal, proven infrastructure</td></tr>
+        <tr><td class="k">Sports 4 All methodology is sound</td><td style="color:#1E5E36;font-weight:700;">Not risky</td><td>Not prototyped — validated by the 2022–23 implementation across 5 countries</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#888;font-style:italic;">A prototype is not the concept — it is a temporary, disposable artifact testing one assumption where uncertainty is highest and failure would undermine the whole intervention.</p>
+  </div>
+</div>
+
+<!-- ═══════════ STAGE 5 ═══════════ -->
+<div class="stage">
+  <h2><span class="stage-num s5">5</span> Transforming &amp; Integrating — PCM &amp; Your Internship</h2>
+  <div class="stage-q">"How does this become real and stick?"</div>
+
+  <div class="block">
+    <div class="block-title">Sports 4 All mapped onto the PCM cycle (as-implemented + follow-up)</div>
+    <table style="margin-left:0;width:100%;">
+      <thead><tr><th style="width:22%;">PCM phase</th><th style="width:39%;">What Sports 4 All did (2022–23)</th><th style="width:39%;">What the follow-up would do — and the intern's role</th></tr></thead>
+      <tbody>
+        <tr><td class="k">1 · Programming</td><td>Aligned with Erasmus+ inclusion priorities and SDG 10</td><td>Scan current Erasmus+ / CERV calls for sport-inclusion windows — <em>intern: donor call monitoring, summary notes</em></td></tr>
+        <tr><td class="k">2 · Identification</td><td>Named educational poverty as the problem; coaches as the gap</td><td>Use this document's problem tree + WNF as the needs analysis; gather evidence on methodology adoption since closure — <em>intern: partner outreach, data collection</em></td></tr>
+        <tr><td class="k">3 · Formulation</td><td>Designed methodology development + coach training as twin outputs</td><td>Flip the POV statements into Specific Objectives; write "Second Contact" and "One-Line Form" as Activities with indicators — <em>intern: logframe drafting, proposal sections, translations</em></td></tr>
+        <tr><td class="k">4 · Implementation</td><td>Delivered trainings and workshops across 5 countries</td><td>Pilot in Veneto clubs via ALDA's local network — <em>intern: workshop logistics, partner coordination, documentation</em></td></tr>
+        <tr><td class="k">5 · Evaluation</td><td>Reported to Erasmus+; project closed 11/2023</td><td>Add the missing loop: adoption tracking, return-rate measurement, participant-facing results communication — <em>intern: interim/final report drafting, indicator tracking</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">The meta-pattern — carried over and confirmed</div>
+    <p>The democracy synthesis ended with: <strong>"a system of open loops — the highest-leverage design work is closing them."</strong> Sports 4 All confirms it at every level: the child lost after one visit (open loop), the right dormant since 1976 (open loop), the methodology with no afterlife (open loop), the excluded 13-year-old who becomes the disengaged 24-year-old (the longest open loop of all). <span class="kw">One point of view now covers both problem spaces: exclusion is an open-loop phenomenon, and every concept in this document is a loop-closing device.</span> Say that sentence at the crash course, and everything you've built — both problem spaces, all ten tools — stands behind it.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>ICT &amp; Development for Social Good · University of Turin · Crash Course July 2026</span>
+  <span>Project: Sports 4 All (Erasmus+) · ALDA — Vicenza</span>
+  <span>Method: design process arc · EU PCM · ANT · WNF · JTBD · TiSDD · Dorst frames</span>
+</div>
+
+</div>
+</body>
+</html>
